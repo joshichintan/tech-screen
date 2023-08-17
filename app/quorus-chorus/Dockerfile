@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+ENV PYTHONPATH=/app
+
+
+COPY . /app
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+
+EXPOSE 4000
+
+ENV UVICORN_HOST=0.0.0.0 UVICORN_PORT=4000 UVICORN_LOG_LEVEL=info
+
+
+

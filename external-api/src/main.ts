@@ -1,4 +1,4 @@
-import { route } from "./router.ts";
-import { serve } from "./deps.ts";
+import { route } from './router.ts';
+import { serve } from './deps.ts';
 
-serve(route, { port: 8080 });
+serve(route, { port: 4001 });

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  api:
+    extends:
+      file: ./app/quorus-chorus/docker-compose.yml
+      service: api
+
+  db:
+    extends:
+      file: ./app/quorus-chorus/docker-compose.yml
+      service: db
+
+  pgadmin:
+    extends:
+      file: ./app/quorus-chorus/docker-compose.yml
+      service: pgadmin
+
+  external-api:
+    build:
+      context: ./external-api
+      dockerfile: Dockerfile
+    expose:
+      - 4001
+    ports:
+      - 4001:4001
+
+volumes:
+  postgres_data:

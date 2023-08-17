@@ -5,17 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Quorus-Chorus: Attach",
+      "type": "python",
+      "request": "attach",
+      "connect": { "host": "localhost", "port": 5678 },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/app/quorus-chorus",
+          "remoteRoot": "/app"
+        }
+      ],
+      "justMyCode": true
+    },
+    {
       "request": "launch",
       "name": "Debug Deno: Main",
       "type": "node",
       "program": "${workspaceFolder}/external-api/src/main.ts",
       "cwd": "${workspaceFolder}/external-api",
       "runtimeExecutable": "deno",
-      "runtimeArgs": [
-        "run",
-        "--inspect-brk",
-        "--allow-all"
-      ],
+      "runtimeArgs": ["run", "--inspect-brk", "--allow-all"],
       "attachSimplePort": 9229
     }
   ]
