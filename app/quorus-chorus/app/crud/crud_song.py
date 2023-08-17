@@ -1,0 +1,33 @@
+from app.models.song import Song
+from app.schemas.song import SongCreate, SongUpdate
+
+from app.crud.base import CRUDBase
+
+
+class CRUDSong(CRUDBase[Song, SongCreate, SongUpdate]):
+    # In our DB, songs are created from multiple data sources.
+    #
+    # Song payout information comes in via flat files which, unfortunately
+    # for us, are stored in a bizarre and non-standard format created by
+    # the data provider (The reason for which is lost to the mire of corporate
+    # bureaucracy).
+    #
+    # The internal identifier code (Called the IRA code) is in the form:
+    # IRA-{Licensing Group}-{Last 5 digits ISRC}-{Length of the song title as a 3-digit, zero-padded number}
+    #
+    # EG: A song with:
+    #   ISRC: US-XJD-23-83229,
+    #   Title: Value Million,
+    #   Licensor: The Orchard
+    #
+    # would produce the IRA code: IRA-The_Orchard-83229-013
+    #
+    # Other song information must be pulled from an external API
+    # and merged with our pricing data.
+    #
+    # External API URL: GET http://localhost:4001/api/songs/{ISRC}
+
+    ...
+
+
+song = CRUDSong(Song)

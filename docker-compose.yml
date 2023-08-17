@@ -11,11 +11,6 @@ services:
       file: ./app/quorus-chorus/docker-compose.yml
       service: db
 
-  pgadmin:
-    extends:
-      file: ./app/quorus-chorus/docker-compose.yml
-      service: pgadmin
-
   external-api:
     build:
       context: ./external-api
