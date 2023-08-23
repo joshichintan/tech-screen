@@ -13,7 +13,7 @@ class CRUDSong(CRUDBase[Song, SongCreate, SongUpdate]):
     # bureaucracy).
     #
     # The internal identifier code (Called the IRA code) is in the form:
-    # IRA-{Licensing Group}-{Last 5 digits ISRC}-{Length of the song title as a 3-digit, zero-padded number}
+    # IRA-{Licensing Group}-{Last 5 ISRC}-{Len. song title as 3 digit number}
     #
     # EG: A song with:
     #   ISRC: US-XJD-23-83229,
@@ -21,6 +21,7 @@ class CRUDSong(CRUDBase[Song, SongCreate, SongUpdate]):
     #   Licensor: The Orchard
     #
     # would produce the IRA code: IRA-The_Orchard-83229-013
+    # (Song title len = 13) -> 013
     #
     # Other song information must be pulled from an external API
     # and merged with our pricing data.

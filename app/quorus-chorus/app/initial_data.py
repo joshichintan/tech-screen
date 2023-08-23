@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 def init() -> None:
     db = SessionLocal()
-
+    # Add initial song
     init_db(db)
 
 

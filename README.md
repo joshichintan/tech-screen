@@ -10,8 +10,7 @@ Out of the box there is a wired-up PostgreSQL database, pgAdmin4, and a [FastAPI
 
 ### Prerequisites
 
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+
 
 Having Python installed is helpful primarily for e.g. linting. If you're using VSCode, there are several recommended extensions in [.vscode/extensions.json](.vscode/extensions.json) that I find helpful anyway.
 
