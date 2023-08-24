@@ -1,6 +1,6 @@
 # Quorus Tech Screen Project Template
 
-This is the template project for Quorus Tech Screens. Fork this repo and use it as a starting point for your project.
+This is the template project for Quorus Tech Screens. Use it as a starting point for your project.
 
 ## Project Description
 
