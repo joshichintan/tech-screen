@@ -14,6 +14,8 @@ services:
       db:
         condition: service_healthy
     command: /bin/bash -c "/app/pre-start.sh && uvicorn app.main:app --host 0.0.0.0 --port 4000 --reload"
+    stdin_open: true
+    tty: true
 
   db:
     container_name: postgresql_db
@@ -28,7 +30,10 @@ services:
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
     healthcheck:
-      test: [ 'CMD-SHELL', 'pg_isready -U postgres' ]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
+
+volumes:
+  postgres_data:
