@@ -1,8 +1,8 @@
+from app.api import deps
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
-from app.api import deps
-from app import schemas, crud
+from app import crud, schemas, services
 
 router = APIRouter()
 
@@ -19,4 +19,4 @@ def get_song_by_isrc(isrc: str, db: Session = Depends(deps.get_db)) -> schemas.S
 
 @router.post("/upload", status_code=201)
 def upload_songs_file(file: UploadFile, db: Session = Depends(deps.get_db)) -> None:
-    ...
+    songs = services.SongLoaderService.load_from_file(file.file)
