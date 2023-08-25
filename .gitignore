@@ -3,7 +3,6 @@
 
 ### dotenv ###
 .env
-.vscode/settings.json
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
@@ -552,3 +551,4 @@ $RECYCLE.BIN/
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/python,node,visualstudiocode,dotenv,pycharm,git,macos,windows,linux,yarn
+.vscode/settings.json
