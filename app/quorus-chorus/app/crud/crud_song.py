@@ -1,3 +1,5 @@
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 from app.models.song import Song
 from app.schemas.song import SongCreate, SongUpdate
 
@@ -28,7 +30,8 @@ class CRUDSong(CRUDBase[Song, SongCreate, SongUpdate]):
     #
     # External API URL: GET http://localhost:4001/api/songs/{ISRC}
 
-    ...
+    def get_by_isrc(self, db: Session, *, isrc: str) -> Song | None:
+        return db.scalar(select(Song).where(Song.isrc == isrc))
 
 
 song = CRUDSong(Song)

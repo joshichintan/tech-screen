@@ -1,11 +1,11 @@
 from __future__ import with_statement
 
 import os
+from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
-from logging.config import fileConfig
 from dotenv import load_dotenv
+from sqlalchemy import engine_from_config, pool
 
 load_dotenv()
 
@@ -37,7 +37,7 @@ def get_url():
     user = os.getenv("POSTGRES_USER", "postgres")
     password = os.getenv("POSTGRES_PASSWORD", "")
     server = os.getenv("POSTGRES_SERVER", "db")
-    db = os.getenv("POSTGRES_DB", "app")
+    db = os.getenv("POSTGRES_DB", "postgres")
 
     return f"postgresql://{user}:{password}@{server}/{db}"
 
