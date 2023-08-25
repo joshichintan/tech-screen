@@ -27,7 +27,7 @@ use to solve the problem.
 Here are the two features we'd like you to implement:
 
 1. Data ingestion - Read and parse data from a flat file (`data_ingest/data_ingest.ira`)
-   and an "external" API (`http://localhost:4001/api/songs/{ISRC}`),
+   and an "external" API (`http://localhost:4001/api/songs/{ISRC-slug}`),
    use that data to fill out and save `Songs` to the database.
    Put your solution in `src/crud/crud_song.py`. Additional details
    about this problem can be found there.
