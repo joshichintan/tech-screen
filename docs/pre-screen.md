@@ -1,4 +1,4 @@
-## Prescreen 1
+## Prescreen 1 (SQL)
 
 Write a SQL query to find the records with duplicate `ssn` values in a table named `students`.
 
@@ -9,9 +9,9 @@ Write a SQL query to find the records with duplicate `ssn` values in a table nam
 | ...        | ...   | ...             | ...         |
 | 64         | Ryan  | ryan@quorus.io  | 123-45-6789 |
 
-## Prescreen 2
+## Prescreen 2 (Python)
 
-Write a function that accepts a `limit` number.
+Write a Python function that accepts a `limit` number.
 For each number from 1 to `limit`, if the number is divisible by 3, print "fizz",
 if the number is divisble by 5, print "buzz",
 if the number is divisible by 3 and 5, print "fizzbuzz",
