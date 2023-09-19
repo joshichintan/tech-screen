@@ -37,13 +37,13 @@ ORDERS_TO_MATCH = [
     Order(
         symbol="GE",
         quantity=Decimal("100"),
-        direction="buy",
+        direction="sell",
         submitted_date=datetime(2023, 3, 15),
     ),
     Order(
         symbol="GE",
         quantity=Decimal("50"),
-        direction="buy",
+        direction="sell",
         submitted_date=datetime(2023, 3, 15),
     ),
 ]
@@ -94,51 +94,71 @@ TRADES_TO_MATCH = [
         cost_basis=Decimal("2512.5"),
         quantity=Decimal("75"),
         price=Decimal("33.5"),
-        direction="buy",
+        direction="sell",
         filled_date=datetime(2023, 3, 15),
     ),
     Trade(
         symbol="GE",
         cost_basis=Decimal("1177.75"),
-        quantity=Decimal("35"),
+        quantity=Decimal("70"),
         price=Decimal("33.65"),
-        direction="buy",
+        direction="sell",
         filled_date=datetime(2023, 3, 15),
     ),
     Trade(
         symbol="GE",
         cost_basis=Decimal("1346.4"),
-        quantity=Decimal("40"),
+        quantity=Decimal("5"),
         price=Decimal("33.66"),
-        direction="buy",
+        direction="sell",
         filled_date=datetime(2023, 3, 15),
     ),
 ]
 
 TARGET_MATCHES = [
     Match(
-        order=ORDERS_TO_MATCH[1],
-        trade=TRADES_TO_MATCH[1],
+        order=ORDERS_TO_MATCH[0],
+        trade=TRADES_TO_MATCH[0],
         allocated_quantity=Decimal("50"),
     ),
     Match(
-        order=ORDERS_TO_MATCH[2],
-        trade=TRADES_TO_MATCH[2],
+        order=ORDERS_TO_MATCH[1],
+        trade=TRADES_TO_MATCH[1],
         allocated_quantity=Decimal("1"),
+    ),
+    Match(
+        order=ORDERS_TO_MATCH[2],
+        trade=TRADES_TO_MATCH[1],
+        allocated_quantity=Decimal("0.5"),
     ),
     Match(
         order=ORDERS_TO_MATCH[3],
         trade=TRADES_TO_MATCH[2],
-        allocated_quantity=Decimal("0.5"),
+        allocated_quantity=Decimal("50"),
     ),
     Match(
-        order=ORDERS_TO_MATCH[4],
+        order=ORDERS_TO_MATCH[3],
         trade=TRADES_TO_MATCH[3],
         allocated_quantity=Decimal("50"),
     ),
     Match(
-        order=ORDERS_TO_MATCH[4],
-        trade=TRADES_TO_MATCH[4],
-        allocated_quantity=Decimal("50"),
+        order=ORDERS_TO_MATCH[5],
+        trade=TRADES_TO_MATCH[5],
+        allocated_quantity=Decimal("75"),
+    ),
+    Match(
+        order=ORDERS_TO_MATCH[5],
+        trade=TRADES_TO_MATCH[6],
+        allocated_quantity=Decimal("25"),
+    ),
+    Match(
+        order=ORDERS_TO_MATCH[6],
+        trade=TRADES_TO_MATCH[6],
+        allocated_quantity=Decimal("45"),
+    ),
+    Match(
+        order=ORDERS_TO_MATCH[6],
+        trade=TRADES_TO_MATCH[7],
+        allocated_quantity=Decimal("5"),
     ),
 ]
