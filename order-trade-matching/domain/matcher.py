@@ -8,13 +8,6 @@ def match_orders_trades(
     For a list of unique Quorus orders and a list of unique custodian trades
     for a single account, matches the orders to the trades.
 
-    This is a best-effort matching based on matching the following fields:
-        - symbol
-        - direction
-        - filled_date and submitted_date (same day)
-        - sum of order quantities == sum of transaction quantities
-          for a given symbol, direction, and order date
-
     For example:
         - Order: Buy 50 AAPL on 2023-01-10 matches
             Trade: Buy 50 AAPL on 2023-01-10

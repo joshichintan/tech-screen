@@ -40,14 +40,8 @@ Here are the two features we'd like you to implement:
    returns the payout per play of that artist.
 
 1. Order-Trade Matching - Update `order-trade-matching/domain/matcher.py::match_orders_trades`
-   so that given a list of `Orders` and `Trades`, the function returns a list of `Matches`
-   according to the following rules:
-
-   - symbol
-   - direction
-   - filled_date and submitted_date (same day)
-   - sum of order quantities == sum of transaction quantities
-     for a given symbol, direction, and order date
+   so that given a list of `Orders` and `Trades`, the function returns a list of `Matches` which associates
+   an `Order` with a `Trade`.
 
    For example:
 
