@@ -40,18 +40,8 @@ Here are the two features we'd like you to implement:
    returns the payout per play of that artist.
 
 1. Order-Trade Matching - Update `order-trade-matching/domain/matcher.py::match_orders_trades`
-   so that given a list of `Orders` and `Trades`, the function returns a list of `Matches` which associates
+   so that given a list of `Orders` we've submitted to the custodian and `Trades` the have executed based on those orders, the function returns a list of `Matches` which associates
    an `Order` with a `Trade`.
-
-   For example:
-
-   - Order: Buy 50 AAPL on 2023-01-10 matches
-     Trade: Buy 50 AAPL on 2023-01-10
-   - Order1: Sell 1 BTC on 2023-02-20, Order2: Sell 0.5 BTC on 2023-02-20
-     matches Trade: Sell 1.5 BTC @ $30001.48 on 2023-02-20
-   - Order: Buy 100 USBOND on 2023-03-15 matches
-     Trade1: Buy 50 USBOND @ $518.5 on 2023-03-15,
-     Trade 2: Buy 50 USBOND @ $518.7 on 2023-03-15
 
    Models are defined in `./order-trade-matching/domain/models.py`, and sample data that is used in the test case is defined in `./order-trade-matching/domain/data.py`.
 
