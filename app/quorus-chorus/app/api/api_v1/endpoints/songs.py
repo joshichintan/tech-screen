@@ -20,3 +20,8 @@ def get_song_by_isrc(isrc: str, db: Session = Depends(deps.get_db)) -> schemas.S
 @router.post("/upload", status_code=201)
 def upload_songs_file(file: UploadFile, db: Session = Depends(deps.get_db)) -> None:
     songs = services.SongLoaderService.load_from_file(file.file)
+
+    for song in songs:
+        crud.song.create(db, obj_in=song)
+
+    return {"message": "Songs uploaded successfully"}

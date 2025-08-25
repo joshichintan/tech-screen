@@ -32,6 +32,20 @@ class CRUDSong(CRUDBase[Song, SongCreate, SongUpdate]):
 
     def get_by_isrc(self, db: Session, *, isrc: str) -> Song | None:
         return db.scalar(select(Song).where(Song.isrc == isrc))
+    
+    def create_song(self, db: Session, *, obj_in: SongCreate) -> Song:
+        db_obj = Song(
+            isrc=obj_in.isrc,
+            artist=obj_in.artist,
+            album=obj_in.album,
+            payout_per_play=obj_in.payout_per_play,
+            licensing_group=obj_in.licensing_group,
+        )
+
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+        return db_obj
 
 
 song = CRUDSong(Song)

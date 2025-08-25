@@ -8,7 +8,13 @@ services:
     build:
       context: ./external-api
       dockerfile: Dockerfile
+    container_name: external-api
     expose:
       - 4001
     ports:
       - 4001:4001
+    networks:
+      - appnet
+
+networks:
+  appnet:

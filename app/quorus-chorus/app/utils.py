@@ -6,8 +6,11 @@ from typing import Any, Dict, Optional
 import emails
 from emails.template import JinjaTemplate
 from jose import jwt
-
+from dataclasses import dataclass
+from decimal import Decimal
+from typing import BinaryIO, List
 from app.core.config import settings
+
 
 
 def send_email(
@@ -104,3 +107,31 @@ def verify_password_reset_token(token: str) -> Optional[str]:
         return decoded_token["email"]
     except jwt.JWTError:
         return None
+
+
+@dataclass(frozen=True)
+class ParsedIra:
+    licensing_group: str
+    last5_isrc: str
+    title_len: int
+    payout_per_play: float
+
+
+def parse_ira(song_file: BinaryIO) -> List[ParsedIra]:
+    data = song_file.read().decode('utf-8')
+    parsed_iras = []
+
+    data = data.split('-*-')
+
+    for item in data:
+        if not item:
+            continue
+        item = item.split('-')
+        title_len_and_payout = item[-1].split('/')
+        parsed_iras.append(ParsedIra(
+            licensing_group=item[1].replace('_', ' '),
+            last5_isrc=item[2],
+            title_len=title_len_and_payout[0],
+            payout_per_play=title_len_and_payout[-1]
+        ))
+    return parsed_iras
