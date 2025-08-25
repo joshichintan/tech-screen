@@ -1,7 +1,9 @@
+from sqlalchemy import sql
+import sqlalchemy
 from app.api import deps
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlalchemy.orm import Session
-
+from datetime import datetime
 from app import crud, schemas, services
 
 router = APIRouter()
@@ -16,6 +18,11 @@ def get_song_by_isrc(isrc: str, db: Session = Depends(deps.get_db)) -> schemas.S
 
     return schemas.Song.from_orm(song)
 
+@router.get("/play/{isrc}", response_model=schemas.PlayCreateResponse)
+def play_song(isrc: str, db: Session = Depends(deps.get_db)) -> schemas.PlayCreateResponse:
+    play = crud.play.create_play(db, obj_in=schemas.PlayCreate(isrc=isrc, date=datetime.now()))
+
+    return play
 
 @router.post("/upload", status_code=201)
 def upload_songs_file(file: UploadFile, db: Session = Depends(deps.get_db)) -> None:
