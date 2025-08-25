@@ -4,7 +4,7 @@ from app.crud.base import CRUDBase
 from sqlalchemy.orm import Session
 
 class CRUDPlay(CRUDBase[Play, PlayCreate, PlayUpdate]):
-    def create_play(self, db: Session, *, obj_in: PlayCreate) -> Play:
+    def create(self, db: Session, *, obj_in: PlayCreate) -> Play:
         db_obj = Play(
             isrc=obj_in.isrc,
             date=obj_in.date,

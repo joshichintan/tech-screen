@@ -2,6 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from app.models.song import Song
 from app.schemas.song import SongCreate, SongUpdate
+from sqlalchemy.exc import IntegrityError
 
 from app.crud.base import CRUDBase
 
@@ -33,19 +34,24 @@ class CRUDSong(CRUDBase[Song, SongCreate, SongUpdate]):
     def get_by_isrc(self, db: Session, *, isrc: str) -> Song | None:
         return db.scalar(select(Song).where(Song.isrc == isrc))
     
-    def create_song(self, db: Session, *, obj_in: SongCreate) -> Song:
-        db_obj = Song(
-            isrc=obj_in.isrc,
-            artist=obj_in.artist,
-            album=obj_in.album,
-            payout_per_play=obj_in.payout_per_play,
-            licensing_group=obj_in.licensing_group,
-        )
+    def create(self, db: Session, *, obj_in: SongCreate) -> Song:
+        print('--------------------------->Creating song', obj_in)
+        try:
+            db_obj = Song(
+                isrc=obj_in.isrc,
+                artist=obj_in.artist,
+                album=obj_in.album,
+                payout_per_play=obj_in.payout_per_play,
+                licensing_group=obj_in.licensing_group,
+            )
 
-        db.add(db_obj)
-        db.commit()
-        db.refresh(db_obj)
-        return db_obj
+            db.add(db_obj)
+            db.commit()
+            db.refresh(db_obj)
+            return db_obj
+        except IntegrityError as e:
+            db.rollback()
+            print('Song already exists', e)
 
 
 song = CRUDSong(Song)

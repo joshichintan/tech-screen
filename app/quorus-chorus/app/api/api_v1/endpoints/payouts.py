@@ -27,7 +27,7 @@ def payout(
     The calculated payout is automatically stored in the database.
     """
     try:
-        result = crud.crud_payout.payout.calculate_payout(db, request=request)
+        result = crud.crud_payout.payout.create(db, request=request)
         return result
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

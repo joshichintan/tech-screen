@@ -34,7 +34,7 @@ class CRUDPayout:
     #   4. ISRC + start and end date - Given ISRC, start, and end date,
     #      calculate payout between the two dates
 
-    def calculate_payout(self, db: Session, request: PayoutRequest) -> PayoutResult:
+    def create(self, db: Session, request: PayoutRequest) -> PayoutResult:
         """
         Main function to calculate payouts based on the request type.
         Automatically detects the case based on which dates are provided.
