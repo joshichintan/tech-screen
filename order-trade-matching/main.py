@@ -4,6 +4,7 @@ from domain import ORDERS_TO_MATCH, TARGET_MATCHES, TRADES_TO_MATCH, match_order
 
 
 def main():
+    print('Running test')
     matches = match_orders_trades(ORDERS_TO_MATCH, TRADES_TO_MATCH)
     try:
         assert sorted(matches) == sorted(TARGET_MATCHES), "Not a match!"
