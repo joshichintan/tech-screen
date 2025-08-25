@@ -12,6 +12,10 @@ def main():
         print(e)
         pp = pprint.PrettyPrinter(width=120, indent=2)
         pp.pprint("Missing solution matches:")
+        print("--------------------------------")
+        for m in matches:
+            print(m)
+        print("--------------------------------")
         for m in (match for match in matches if match not in TARGET_MATCHES):
             print(m)
 

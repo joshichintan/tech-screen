@@ -20,54 +20,74 @@ from typing import Tuple, List
 #     """
 
 #     return []
-
-Key = Tuple[str, TDirection, Decimal]
+Key = Tuple[str, TDirection]
 
 def match_orders_trades(
     orders: list[Order],
     trades: list[Trade],
 ) -> list[Match]:
-    # Bucket by (symbol, direction, quantity)
+
     order_buckets: dict[Key, list[Order]] = defaultdict(list)
     trade_buckets: dict[Key, list[Trade]] = defaultdict(list)
 
     for o in orders:
-        order_buckets[(o.symbol, o.direction, o.quantity)].append(o)
+        order_buckets[(o.symbol, o.direction)].append(o)
     for t in trades:
-        trade_buckets[(t.symbol, t.direction, t.quantity)].append(t)
+        trade_buckets[(t.symbol, t.direction)].append(t)
 
-    # Sort by time inside each bucket
+    # Sorting orders and trades based on time
     for k in order_buckets:
-        order_buckets[k].sort(key=lambda o: o.submitted_date)
+        order_buckets[k].sort(key=lambda o: (o.submitted_date, o.quantity))
     for k in trade_buckets:
-        trade_buckets[k].sort(key=lambda t: t.filled_date)
+        trade_buckets[k].sort(key=lambda t: (t.filled_date, t.quantity))
 
     matches: List[Match] = []
 
     all_keys = set(order_buckets) | set(trade_buckets)
-
+    print("all_keys", all_keys)
     for key in all_keys:
-        print(key)
         o_list = order_buckets.get(key, [])
         t_list = trade_buckets.get(key, [])
 
-        i = j = 0
-        while i < len(o_list) and j < len(t_list):
-            print(o_list[i])
-            print(t_list[j])
-            o = o_list[i]
-            t = t_list[j]
+        # Track left over
+        print(key)
+        print("o_list", o_list)
+        print("t_list", t_list)
+        print("--------------------------------")
+        o_remaining = [o.quantity for o in o_list]
+        t_remaining = [t.quantity for t in t_list]
 
-            # Enforce time ordering: trade must be strictly after order
-            if t.filled_date <= o.submitted_date:
-                # Skip the trade if it occurs before the earliest unmatched order of this key
-                j += 1
+        # two pointers to iterate through orders and trades
+        oi = ti = 0
+        while oi < len(o_list) and ti < len(t_list):
+            o = o_list[oi]
+            t = t_list[ti]
+
+            # orders must be before trades
+            if t.filled_date < o.submitted_date:
+                print("trade before order", t, o)
+                ti += 1
                 continue
-            print("match", o, t)
-            # Keys already match by construction; quantities equal by key
-            matches.append(Match(order=o, trade=t, allocated_quantity=o.quantity))
-            i += 1
-            j += 1
+
+            # allocate the minimum of the remaining quantities
+            alloc = min(o_remaining[oi], t_remaining[ti])
+
+            # if quantity is greater than 0, add the match
+            if alloc > Decimal(0):
+                matches.append(Match(order=o, trade=t, allocated_quantity=alloc))
+                print('Allocating', alloc,"match", o, t,)
+                o_remaining[oi] -= alloc
+                t_remaining[ti] -= alloc
+            print("o_remaining", o_remaining)
+            print("t_remaining", t_remaining)
+
+            # if either trade or order is fullfilled, move the pointer
+            if o_remaining[oi] == Decimal(0):
+                print("order is fullfilled", o_remaining[oi])
+                oi += 1
+            if t_remaining[ti] == Decimal(0):
+                print("trade is fullfilled", t_remaining[ti])
+                ti += 1
+        print('\n\n')
 
     return matches
-
