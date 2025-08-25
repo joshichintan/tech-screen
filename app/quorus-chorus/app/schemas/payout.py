@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Literal, Union, Optional
+from typing import Optional
 from datetime import date
 
 # Existing schemas
@@ -19,29 +19,11 @@ class Payout(PayoutBase):
     class Config:
         from_attributes = True
 
-# New schemas for payout calculation
-class LifetimePayoutRequest(BaseModel):
+# New simplified schema for payout calculation
+class PayoutRequest(BaseModel):
     isrc: str = Field(..., description="Song ISRC identifier")
-    case: Literal["lifetime"] = "lifetime"
-
-class FromStartPayoutRequest(BaseModel):
-    isrc: str = Field(..., description="Song ISRC identifier")
-    case: Literal["from_start"] = "from_start"
-    start_date: date = Field(..., description="Start date for payout calculation")
-
-class ToEndPayoutRequest(BaseModel):
-    isrc: str = Field(..., description="Song ISRC identifier")
-    case: Literal["to_end"] = "to_end"
-    end_date: date = Field(..., description="End date for payout calculation")
-
-class DateRangePayoutRequest(BaseModel):
-    isrc: str = Field(..., description="Song ISRC identifier")
-    case: Literal["date_range"] = "date_range"
-    start_date: date = Field(..., description="Start date for payout calculation")
-    end_date: date = Field(..., description="End date for payout calculation")
-
-# Union type for all possible requests
-PayoutRequest = Union[LifetimePayoutRequest, FromStartPayoutRequest, ToEndPayoutRequest, DateRangePayoutRequest]
+    start_date: Optional[date] = Field(None, description="Start date for payout calculation")
+    end_date: Optional[date] = Field(None, description="End date for payout calculation")
 
 class PayoutResult(BaseModel):
     isrc: str

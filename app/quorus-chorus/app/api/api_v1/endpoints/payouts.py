@@ -4,10 +4,7 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
-from app.schemas.payout import (
-    PayoutRequest, PayoutResult, LifetimePayoutRequest, 
-    FromStartPayoutRequest, ToEndPayoutRequest, DateRangePayoutRequest
-)
+from app.schemas.payout import PayoutRequest, PayoutResult
 
 router = APIRouter()
 
@@ -18,13 +15,14 @@ def payout(
     request: PayoutRequest,
 ) -> Any:
     """
-    Calculate and store payout for a song based on the request type.
+    Calculate and store payout for a song based on the dates provided.
     
-    This endpoint handles 4 different cases:
-    1. Lifetime: Calculate total payout for a song (no dates)
-    2. From Start: Calculate payout from start date to current date
-    3. To End: Calculate payout from earliest play to end date
-    4. Date Range: Calculate payout between two specific dates
+    This endpoint automatically detects the calculation type based on which dates are provided:
+    
+    1. **Lifetime**: No dates provided - Calculate total payout for all time
+    2. **From Start**: Only start_date provided - Calculate from start_date to current date
+    3. **To End**: Only end_date provided - Calculate from beginning to end_date
+    4. **Date Range**: Both dates provided - Calculate between start_date and end_date
     
     The calculated payout is automatically stored in the database.
     """

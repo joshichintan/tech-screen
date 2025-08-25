@@ -3,7 +3,7 @@ import sqlalchemy
 from app.api import deps
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import datetime, timezone
 from app import crud, schemas, services
 
 router = APIRouter()
@@ -20,7 +20,7 @@ def get_song_by_isrc(isrc: str, db: Session = Depends(deps.get_db)) -> schemas.S
 
 @router.get("/play/{isrc}", response_model=schemas.PlayCreateResponse)
 def play_song(isrc: str, db: Session = Depends(deps.get_db)) -> schemas.PlayCreateResponse:
-    play = crud.play.create_play(db, obj_in=schemas.PlayCreate(isrc=isrc, date=datetime.now()))
+    play = crud.play.create_play(db, obj_in=schemas.PlayCreate(isrc=isrc, date=datetime.now(timezone.utc)))
 
     return play
 
